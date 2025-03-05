@@ -4,6 +4,7 @@ import com.example.demo.models.Movie;
 import com.example.demo.models.MovieGenre;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,8 +56,29 @@ public class MovieController {
         movies.put(movie8.getId(), movie8);
 
     }
+
+    /*
     @GetMapping
     public Map<Long, Movie> getMovies() {
         return movies;
     }
+    */
+
+    @GetMapping
+    public ResponseEntity<Map<Long, Movie>> getMovies() {
+        return ResponseEntity.ok(movies);
+    }
+    // curl -i -X GET http://localhost:8080/api/movies
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovie(@PathVariable("id") Long id) {
+        Movie movie = movies.get(id);
+
+        if (movie != null) {
+            return ResponseEntity.ok(movie);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // curl -i -X GET http://localhost:8080/api/movies/1
 }
