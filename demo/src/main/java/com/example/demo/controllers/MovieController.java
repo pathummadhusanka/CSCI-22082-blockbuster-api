@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.Movie;
 import com.example.demo.models.MovieGenre;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +17,6 @@ public class MovieController {
     private final AtomicLong idCounter = new AtomicLong();
 
     public MovieController() {
-
-
 
         Movie movie1 = new Movie("Mad Max: Fury Road", 2015, true, MovieGenre.ACTION);
         movie1.setId(idCounter.incrementAndGet());
@@ -81,4 +76,42 @@ public class MovieController {
     }
 
     // curl -i -X GET http://localhost:8080/api/movies/1
+
+    @PostMapping
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie movieDetails) {
+
+        movieDetails.setId(idCounter.incrementAndGet());
+        movies.put(movieDetails.getId(), movieDetails);
+        return ResponseEntity.ok(movieDetails);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateMovieById(@PathVariable Long id, @RequestBody Movie movieDetails) {
+        Movie movie = movies.get(id);
+        if(movie == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        movieDetails.setId(id);
+        movies.put(id, movieDetails);
+        return ResponseEntity.ok(movieDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMovieById(@PathVariable Long id) {
+        movies.remove(id);
+    }
+
+    @GetMapping("/rent/{id}")
+    public ResponseEntity<Movie> rentMovie(@PathVariable Long id) {
+        Movie movie = movies.get(id);
+
+        if(movie != null && movie.isAvailable()) {
+            movie.setAvailable(false);
+            return ResponseEntity.ok().build();
+
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }
