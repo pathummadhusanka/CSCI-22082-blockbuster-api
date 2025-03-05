@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Movie;
 import com.example.demo.models.MovieGenre;
+import com.example.demo.models.MovieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class MovieController {
 
     private Map<Long, Movie> movies = new HashMap<>();
     private final AtomicLong idCounter = new AtomicLong();
+    private final MovieRepository movieRepository;
 
     public MovieController() {
 

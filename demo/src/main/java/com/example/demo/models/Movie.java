@@ -1,6 +1,10 @@
 package com.example.demo.models;
 
 public class Movie {
+
+    @Id
+    @GeneratedValue(stratergy = GenerationType.IDENTITY)
+
     private Long id;
 
     public Movie(String title, int releaseYear, boolean available, MovieGenre genre) {
