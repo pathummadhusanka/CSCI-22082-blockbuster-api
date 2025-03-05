@@ -114,4 +114,17 @@ public class MovieController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/return/{id}")
+    public ResponseEntity<Movie> returnMovie(@PathVariable Long id) {
+        Movie movie = movies.get(id);
+
+        if(movie != null && !movie.isAvailable()) {
+            movie.setAvailable(true);
+            return ResponseEntity.ok().build();
+
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }
