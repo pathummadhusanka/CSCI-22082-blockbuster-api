@@ -1,9 +1,13 @@
 package com.example.demo.models;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+
 public class Movie {
 
     @Id
-    @GeneratedValue(stratergy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 
