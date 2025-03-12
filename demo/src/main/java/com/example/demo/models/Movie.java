@@ -1,15 +1,22 @@
 package com.example.demo.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+//import org.springframework.data.annotation.Id;
 
+import jakarta.persistence.Id;
+
+@Entity
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String title;
+    private int releaseYear;
+    private boolean available;
+
+    @Enumerated(EnumType.STRING)
+    private MovieGenre genre; // Enum (MovieGenre)
 
     public Movie(String title, int releaseYear, boolean available, MovieGenre genre) {
         this.title = title;
@@ -17,6 +24,11 @@ public class Movie {
         this.available = available;
         this.genre = genre;
     }
+
+    public Movie() {
+
+    }
+
 
     public Long getId() {
         return id;
@@ -58,8 +70,5 @@ public class Movie {
         this.genre = genre;
     }
 
-    private String title;
-    private int releaseYear;
-    private boolean available;
-    private MovieGenre genre; // Enum (MovieGenre)
+
 }
